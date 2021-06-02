@@ -1,5 +1,6 @@
 CREATE TABLE "Products" (
 	"ProductKey" "int" IDENTITY (1, 1) NOT NULL ,
+        "ProductID" "int"  NULL ,
 	"CategoryID" "int" NULL ,
 	"SupplierID" "int" NULL ,
 	"ProductName" nvarchar (40) NOT NULL ,
@@ -31,7 +32,8 @@ CREATE TABLE "Products" (
 	);
 
 CREATE TABLE "Employees" (
-	"EmployeeID" "int" IDENTITY (1, 1) NOT NULL ,
+	"EmployeeKey" "int" IDENTITY (1, 1) NOT NULL ,
+        "EmployeeID" "int"  NULL ,
 	"RegionID" "int" NOT NULL ,
 	"TerritoryID" "nvarchar" (20) NOT NULL ,
 	"LastName" nvarchar (20) NOT NULL ,
@@ -55,21 +57,23 @@ CREATE TABLE "Employees" (
 	"TerritoryDescription" "nchar" (50) NOT NULL ,
 	CONSTRAINT "PK_Employees" PRIMARY KEY  CLUSTERED 
 	(
-		"EmployeeID"
+		"EmployeeKey"
 	)
 	);
 
 	CREATE TABLE "Shippers" (
-	"ShipperID" "int" IDENTITY (1, 1) NOT NULL ,
+	"ShipperKey" "int" IDENTITY (1, 1) NOT NULL ,
+        "ShipperID" "int"  NULL ,
 	"CompanyName" nvarchar (40) NOT NULL ,
 	"Phone" nvarchar (24) NULL ,
 	CONSTRAINT "PK_Shippers" PRIMARY KEY  CLUSTERED 
 	(
-		"ShipperID"
+		"ShipperKey"
 	)
 );
 CREATE TABLE "Customers" (
-	"CustomerID" nchar (5) NOT NULL ,
+	"CustomerKey" nchar (5) NOT NULL ,
+        "CustomerID" nchar (5) NOT NULL ,
 	"CustomerTypeID" "nchar" (10) NOT NULL ,
 	"CompanyName" nvarchar (40) NOT NULL ,
 	"ContactName" nvarchar (30) NULL ,
@@ -84,41 +88,38 @@ CREATE TABLE "Customers" (
 	"CustomerDesc" "nvarchar" (max) NULL, 
 	CONSTRAINT "PK_Customers" PRIMARY KEY  CLUSTERED 
 	(
-		"CustomerID"
+		"CustomerKey"
 	)
 );
 
 CREATE TABLE "Orders" (
-	"OrderID" "int" IDENTITY (1, 1) NOT NULL ,
-	"CustomerID" nchar (5) NULL ,
-	"EmployeeID" "int" NULL ,
-	"ShipperID" "int" NULL ,
+	
+	"CustomerKey" nchar (5) NULL ,
+	"EmployeeKey" "int" NULL ,
+	"ShipperKey" "int" NULL ,
 	"ProductKey" "int"  NULL ,
 	"OrderDate" "datetime" NULL ,
 
 	
 	
-	CONSTRAINT "PK_Orders" PRIMARY KEY  CLUSTERED 
-	(
-		"OrderID"
-	),
+
 	CONSTRAINT "FK_Orders_Customers" FOREIGN KEY 
 	(
-		"CustomerID"
+		"CustomerKey"
 	) REFERENCES "dbo"."Customers" (
-		"CustomerID"
+		"CustomerKey"
 	),
 	CONSTRAINT "FK_Orders_Employees" FOREIGN KEY 
 	(
-		"EmployeeID"
+		"EmployeeKey"
 	) REFERENCES "dbo"."Employees" (
-		"EmployeeID"
+		"EmployeeKey"
 	),
 	CONSTRAINT "FK_Orders_Shippers" FOREIGN KEY 
 	(
-		"ShipperID"
+		"ShipperKey"
 	) REFERENCES "dbo"."Shippers" (
-		"ShipperID"
+		"ShipperKey"
 	)
 	,
 	CONSTRAINT "FK_Orders_Products" FOREIGN KEY 
